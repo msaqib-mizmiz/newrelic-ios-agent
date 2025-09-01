@@ -3,17 +3,18 @@ import PackageDescription
 
 let package = Package(
     name: "newrelic-ios-agent",
-    platforms: [
-        .iOS(.v12)
-    ],
+    platforms: [.iOS(.v12)],
     products: [
-        // Keep product name "NewRelic" so your app can keep selecting/importing it.
+        // Use THIS in your app so all six binaries are linked automatically.
+        .library(name: "NewRelicAgentSuite", targets: ["NRWrapper"]),
+        // Keep the original product for compatibility if needed.
         .library(
             name: "NewRelic",
             targets: ["NewRelic", "Analytics", "Connectivity", "Hex", "Utilities", "JSON"]
         )
     ],
     targets: [
+        // ----- Binary targets (unchanged) -----
         .binaryTarget(
             name: "NewRelic",
             url: "https://github.com/msaqib-mizmiz/newrelic-ios-agent/releases/download/7.5.8-network-filter.3/NewRelic.xcframework.zip",
@@ -43,6 +44,14 @@ let package = Package(
             name: "JSON",
             url: "https://github.com/msaqib-mizmiz/newrelic-ios-agent/releases/download/7.5.8-network-filter.3/JSON.xcframework.zip",
             checksum: "d0479b67f82c83b07555308a2680e255dcbd53d343700878769faa53f554b8e4"
+        ),
+
+        // ----- Wrapper that depends on all six binaries -----
+        .target(
+            name: "NRWrapper",
+            dependencies: ["NewRelic", "Analytics", "Connectivity", "Hex", "Utilities", "JSON"],
+            path: "SPMWrapper",
+            sources: ["shim.swift"]
         )
     ]
 )
