@@ -13,7 +13,7 @@ let package = Package(
         .binaryTarget(
             name: "NewRelic",
             url: "https://github.com/msaqib-mizmiz/newrelic-ios-agent/releases/download/7.5.8-network-filter.3/NewRelic.xcframework.zip",
-            checksum: "e653079f88456f437ce803b287dc274fa9ef8ad57ebceac48603c6e813c7f5a8"
+            checksum: "9244f24b536312887354d6c7cbcb312a19a6d5337566b7e454835b2940a9eba6"
         ),
         .binaryTarget(
             name: "Analytics",
@@ -29,7 +29,7 @@ let package = Package(
             name: "Hex",
             url: "https://github.com/msaqib-mizmiz/newrelic-ios-agent/releases/download/7.5.8-network-filter.3/Hex.xcframework.zip",
             checksum: "160870a0160ba95c792fa4e2db377d3fb93e3ded500e6f13f5cca8b706e30a14"
-        ),
+        ), 
         .binaryTarget(
             name: "Utilities",
             url: "https://github.com/msaqib-mizmiz/newrelic-ios-agent/releases/download/7.5.8-network-filter.3/Utilities.xcframework.zip",

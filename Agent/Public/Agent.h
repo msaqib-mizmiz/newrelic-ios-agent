@@ -35,3 +35,5 @@ FOUNDATION_EXPORT const unsigned char AgentVersionString[];
 #import <NewRelic/NRTimer.h>
 #import <NewRelic/NRURLSessionTaskDelegateBase.h>
 #import <NewRelic/NRWKNavigationDelegateBase.h>
+#import "NRNetworkFilter.h"
+
