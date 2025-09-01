@@ -1484,7 +1484,7 @@
 		34EA78E02A3924CC0071CC95 /* TestCustomEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 34EA78DF2A3924CC0071CC95 /* TestCustomEvents.m */; };
 		8536E4992E657C4600A1C4EC /* NRNetworkFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8536E4982E657C4600A1C4EC /* NRNetworkFilter.m */; };
 		8536E49A2E657C4600A1C4EC /* NRNetworkFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8536E4982E657C4600A1C4EC /* NRNetworkFilter.m */; };
-		8536E49B2E657C4600A1C4EC /* NRNetworkFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 8536E4972E657C4600A1C4EC /* NRNetworkFilter.h */; };
+		8536E49B2E657C4600A1C4EC /* NRNetworkFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 8536E4972E657C4600A1C4EC /* NRNetworkFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8536E49C2E657C4600A1C4EC /* NRNetworkFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 8536E4972E657C4600A1C4EC /* NRNetworkFilter.h */; };
 		8536E49D2E657C4600A1C4EC /* NRNetworkFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8536E4982E657C4600A1C4EC /* NRNetworkFilter.m */; };
 		8536E49E2E657C4600A1C4EC /* NRNetworkFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8536E4982E657C4600A1C4EC /* NRNetworkFilter.m */; };
@@ -4064,6 +4064,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8536E49B2E657C4600A1C4EC /* NRNetworkFilter.h in Headers */,
 				02FF47EE24DB567600115469 /* NRURLSessionTaskDelegateBase.h in Headers */,
 				02FF47EA24DB567600115469 /* NRTimer.h in Headers */,
 				02FF47E824DB567600115469 /* NRLogger.h in Headers */,
@@ -4135,7 +4136,6 @@
 				02FF491F24DC624400115469 /* NRMACrashReport_Symbol.h in Headers */,
 				340D64142AA92FCE00E63CC1 /* PersistentEventStore.h in Headers */,
 				02FF496B24DC629000115469 /* NRMAHarvestData.h in Headers */,
-				8536E49B2E657C4600A1C4EC /* NRNetworkFilter.h in Headers */,
 				02FF4A0424DC647200115469 /* NRMAThreadInfo.h in Headers */,
 				02FF4A0524DC647200115469 /* NRMAMeasurementType.h in Headers */,
 				02FF486524DC615A00115469 /* NRMAAnalytics.h in Headers */,
