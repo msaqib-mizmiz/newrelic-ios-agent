@@ -5,13 +5,8 @@ let package = Package(
     name: "newrelic-ios-agent",
     platforms: [.iOS(.v12)],
     products: [
-        // Use THIS in your app so all six binaries are linked automatically.
-        .library(name: "NewRelicAgentSuite", targets: ["NRWrapper"]),
-        // Keep the original product for compatibility if needed.
-        .library(
-            name: "NewRelic",
-            targets: ["NewRelic", "Analytics", "Connectivity", "Hex", "Utilities", "JSON"]
-        )
+        // Single product: select this in your app.
+        .library(name: "NewRelicAgentSuite", targets: ["NRWrapper"])
     ],
     targets: [
         // ----- Binary targets (unchanged) -----
@@ -46,7 +41,7 @@ let package = Package(
             checksum: "d0479b67f82c83b07555308a2680e255dcbd53d343700878769faa53f554b8e4"
         ),
 
-        // ----- Wrapper that depends on all six binaries -----
+        // ----- Wrapper target that forces Xcode to link all six -----
         .target(
             name: "NRWrapper",
             dependencies: ["NewRelic", "Analytics", "Connectivity", "Hex", "Utilities", "JSON"],
