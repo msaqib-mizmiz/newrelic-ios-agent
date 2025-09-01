@@ -27,7 +27,7 @@ let package = Package(
         .binaryTarget(
             name: "Connectivity",
             url: "https://github.com/msaqib-mizmiz/newrelic-ios-agent/releases/download/7.5.8-network-filter.3/Connectivity.xcframework.zip",
-            checksum: "094d62ce79fbdd45bfcae7474f86ad42cdOecbcd4a9e341e33f05a60c73a97b"
+            checksum: "094d62ce79fbdd45bfcae7474f86ad42cd0ecbcd4fa9e341e33f05a60c73a97b"
         ),
         .binaryTarget(
             name: "Hex",
