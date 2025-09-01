@@ -16,33 +16,41 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "NewRelic",
-            url: "https://github.com/user-attachments/files/22073380/NewRelic.xcframework.zip",
-            checksum: "2c13e47663520a4c87f591aef74395baa405d83ae5ba3460802d3206f4696f9b"
+            url: "https://github.com/msaqib-mizmiz/newrelic-ios-agent/releases/download/7.5.8-network-filter-3/NewRelic.xcframework.zip",
+            checksum: "e653079f88456f437ce803b287dc274fa9ef8ad57ebceac48603c6e813c7f5a8"
         ),
         .binaryTarget(
             name: "Analytics",
-            url: "https://github.com/user-attachments/files/22073372/Analytics.xcframework.zip",
-            checksum: "a499d6b4b108dc40793864f35036a3d9ec049f6c2395b664d3bb5a87ebfc7c6f"
+            url: "https://github.com/msaqib-mizmiz/newrelic-ios-agent/releases/download/7.5.8-network-filter-3/Analytics.xcframework.zip",
+            checksum: "eba6dcb9666d9756b734f6e942904a0447557e853ca50607b4fd002ee991f243"
         ),
         .binaryTarget(
             name: "Connectivity",
-            url: "https://github.com/user-attachments/files/22073374/Connectivity.xcframework.zip",
-            checksum: "d04644add54404216fdcddfd3df02865a559b3b30a707a605e0dae6940f722d1"
+            url: "https://github.com/msaqib-mizmiz/newrelic-ios-agent/releases/download/7.5.8-network-filter-3/Connectivity.xcframework.zip",
+            checksum: "094d62ce79fbdd45bfcae7474f86ad42cd0ecbcd4fa9e341e33f05a60c73a97b"
         ),
         .binaryTarget(
             name: "Hex",
-            url: "https://github.com/user-attachments/files/22073375/Hex.xcframework.zip",
-            checksum: "4455cf81ab1ae04f032ca828d0a8db02b486babc35832f40737d80142419b5fe"
+            url: "https://github.com/msaqib-mizmiz/newrelic-ios-agent/releases/download/7.5.8-network-filter-3/Hex.xcframework.zip",
+            checksum: "160870a0160ba95c792fa4e2db377d3fb93e3ded500e6f13f5cca8b706e30a14"
         ),
         .binaryTarget(
             name: "Utilities",
-            url: "https://github.com/user-attachments/files/22073382/Utilities.xcframework.zip",
-            checksum: "aa97582cf9431dfab9762a45aed4cc7ff33c59b9c030c547ccf6810ad9408dab"
+            url: "https://github.com/msaqib-mizmiz/newrelic-ios-agent/releases/download/7.5.8-network-filter-3/Utilities.xcframework.zip",
+            checksum: "ec8162f2d7aeb652840a61dc9136066b079bc962a0809473f6f330705d9bb762"
         ),
         .binaryTarget(
             name: "JSON",
-            url: "https://github.com/user-attachments/files/22073377/JSON.xcframework.zip",
-            checksum: "5dc3ddcccb43b657716cd3ef2b3371889c7b437568945180a09ce25be324d629"
+            url: "https://github.com/msaqib-mizmiz/newrelic-ios-agent/releases/download/7.5.8-network-filter-3/JSON.xcframework.zip",
+            checksum: "d0479b67f82c83b07555308a2680e255dcbd53d343700878769faa53f554b8e4"
         )
     ]
 )
+
+
+
+
+
+
+
+
