@@ -11,6 +11,7 @@
 #import "NRMAURLSessionTaskOverride.h"
 #import "NRMAURLSessionOverride.h"
 #import "NRMAExceptionHandler.h"
+#import "NRNetworkFilter.h"
 
 @implementation NRURLSessionTaskDelegateBase
 
@@ -38,6 +39,14 @@
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
+    // Skip NR finish logic for ignored URLs, but still forward to the real delegate.
+    if (NRShouldIgnoreURL(task.originalRequest.URL)) {
+        if ([self.realDelegate respondsToSelector:@selector(URLSession:task:didCompleteWithError:)]) {
+            [self.realDelegate URLSession:session task:task didCompleteWithError:error];
+        }
+        return;
+    }
+    
     @try {
         NRTimer* timer = NRMA__getTimerForSessionTask(task);
         // If timer is nil then maybe we didn't instrument the task in time, let's not record it.

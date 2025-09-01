@@ -21,6 +21,8 @@
 #import <NewRelic/NRLogger.h>
 #import <NewRelic/NewRelicCustomInteractionInterface.h>
 #import <NewRelic/NRGCDOverride.h>
+#import "NRNetworkFilter.h"
+
 
 #ifdef __cplusplus
 extern "C" {

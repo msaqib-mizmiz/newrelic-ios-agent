@@ -16,6 +16,7 @@
 #import "NRMANetworkFacade.h"
 #import "NRMAFlags.h"
 #import "NRConstants.h"
+#import "NRNetworkFilter.h"
 
 static IMP NRMAOriginal__resume;
 static IMP NRMAOriginal__urlSessionTask_SetState;
@@ -95,6 +96,15 @@ static const NSString* lock = @"com.newrelic.urlsessiontask.instrumentation.lock
 
 void NRMAOverride__resume(id self, SEL _cmd)
 {
+   // EARLY EXIT: if this task's URL is ignored, do not create timers/traces.
+   NSURLSessionTask *task = (NSURLSessionTask *)self;
+   NSURL *u = task.originalRequest.URL;
+   if (NRShouldIgnoreURL(u)) {
+       // Call through to the original -resume and return uninstrumented
+       ((void(*)(id,SEL))NRMAOriginal__resume)(self, _cmd);
+       return;
+   }
+    
     if (((NSURLSessionTask*)self).state == NSURLSessionTaskStateSuspended) {
 
         // The only state resume will start a task is from Suspended.
@@ -133,6 +143,13 @@ void NRMAOverride__urlSessionTask_SetState(NSURLSessionTask* task, SEL _cmd, NSU
 
                 NSURL *url = [currentRequest URL];
                 if (url != nil) {
+                    // >>> EARLY EXIT: skip instrumentation/recording for ignored URLs
+                    if (NRShouldIgnoreURL(url)) {
+                      if (NRMAOriginal__urlSessionTask_SetState!= nil) {
+                          ((void(*)(NSURLSessionTask *,SEL,NSURLSessionTaskState))NRMAOriginal__urlSessionTask_SetState)(task, _cmd, newState);
+                          }
+                        return;
+                    }
 
                     // Added this section to add Distributed Tracing traceId\trace.id, guid,id and payload.
                     //1

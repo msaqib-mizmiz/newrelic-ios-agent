@@ -20,6 +20,7 @@
 #import "NRMAAssociate.h"
 #import "NRMAURLSessionTaskSearch.h"
 #import "NRMAFlags.h"
+#import "NRNetworkFilter.h"
 
 #define NRMASwizzledMethodPrefix @"_NRMAOverride__"
 
@@ -213,6 +214,11 @@ NSURLSessionTask* NRMAOverride__dataTaskWithRequest(id self, SEL _cmd, NSURLRequ
         NRLOG_AGENT_VERBOSE(@"%@", res);
     }
     
+    // >>> EARLY EXIT: skip NR tracing for ignored URLs
+    if (NRShouldIgnoreURL(request.URL)) {
+        return ((NSURLSessionTask *(*)(id, SEL, NSURLRequest *))NRMAOriginal__dataTaskWithRequest)(self, _cmd, request);
+    }
+    
     IMP originalImp = NRMAOriginal__dataTaskWithRequest;
     
     NSMutableURLRequest* mutableRequest = [NRMAHTTPUtilities addCrossProcessIdentifier:request];
@@ -260,6 +266,11 @@ NSURLSessionTask* NRMAOverride__dataTaskWithRequest_completionHandler(id self, S
         NRLOG_AGENT_ERROR(@"%@", res);
 
         return nil;
+    }
+    
+    // >>> EARLY EXIT: skip NR tracing for ignored URLs
+    if (NRShouldIgnoreURL(request.URL)) {
+        return ((NSURLSessionTask *(*)(id, SEL, NSURLRequest *, void (^)(NSData*,NSURLResponse*,NSError*)))originalImp)(self, _cmd, request, completionHandler);
     }
 
     NSMutableURLRequest* mutableRequest = [NRMAHTTPUtilities addCrossProcessIdentifier:request];
@@ -318,6 +329,11 @@ NSURLSessionTask* NRMAOverride__dataTaskWithURL(id self, SEL _cmd, NSURL* url)
 
         return nil;
     }
+    
+    // >>> EARLY EXIT
+    if (NRShouldIgnoreURL(url)) {
+        return ((NSURLSessionTask*(*)(id,SEL,NSURL*))originalImp)(self,_cmd,url);
+    }
 
     NSURLSessionTask* task = ((id(*)(id,SEL,NSURL*))originalImp)(self,_cmd,url);
     objc_setAssociatedObject(task, NRMAHandledRequestKey, @YES, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -338,6 +354,11 @@ NSURLSessionTask* NRMAOverride__uploadTaskWithRequest_fromFile(id self, SEL _cmd
         NRLOG_AGENT_ERROR(@"%@", res);
 
         return nil;
+    }
+    
+    // >>> EARLY EXIT
+    if (NRShouldIgnoreURL(request.URL)) {
+        return ((NSURLSessionTask *(*)(id, SEL, NSURLRequest*, NSURL*))originalImp)(self, _cmd, request, fileURL);
     }
 
     NSMutableURLRequest* mutableRequest = [NRMAHTTPUtilities addCrossProcessIdentifier:request];
@@ -368,6 +389,11 @@ NSURLSessionTask* NRMAOverride__uploadTaskWithRequest_fromData(id self, SEL _cmd
 
         return nil;
     }
+    
+    // >>> EARLY EXIT
+    if (NRShouldIgnoreURL(request.URL)) {
+        return ((NSURLSessionTask *(*)(id, SEL, NSURLRequest*, NSData*))originalImp)(self, _cmd, request, data);
+    }
 
     NSMutableURLRequest* mutableRequest = [NRMAHTTPUtilities addCrossProcessIdentifier:request];
     NSURLSessionTask* task = ((NSURLSessionTask*(*)(id,SEL,NSURLRequest*,NSData*))originalImp)(self, _cmd, mutableRequest, data);
@@ -395,6 +421,11 @@ NSURLSessionTask* NRMAOverride__uploadTaskWithStreamedRequest(id self, SEL _cmd,
 
         return nil;
     }
+    
+    // >>> EARLY EXIT
+    if (NRShouldIgnoreURL(request.URL)) {
+        return ((NSURLSessionTask*(*)(id,SEL,NSURLRequest*))originalImp)(self, _cmd, request);
+    }
 
     NSURLSessionTask* task = ((NSURLSessionTask*(*)(id,SEL,NSURLRequest*))originalImp)(self, _cmd,request);
     objc_setAssociatedObject(task, NRMAHandledRequestKey, @YES, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -412,6 +443,11 @@ NSURLSessionUploadTask* NRMAOverride__uploadTaskWithRequest_fromFile_completionH
         NSString *res = [NSString stringWithFormat:@"NRMAOverride__uploadTaskWithRequest_fromFile_completionHandler. NRMAOriginal__uploadTaskWithRequest_fromFile_completionHandler is nil. returning nil"];
         NRLOG_AGENT_ERROR(@"%@", res);
         return nil;
+    }
+    
+    // >>> EARLY EXIT
+    if (NRShouldIgnoreURL(request.URL)) {
+        return ((NSURLSessionUploadTask *(*)(id, SEL, NSURLRequest*, NSURL*, void (^)(NSData*,NSURLResponse*,NSError*)))originalIMP)(self, _cmd, request, fileURL, completionHandler);
     }
 
     NSMutableURLRequest* mutableRequest = [NRMAHTTPUtilities addCrossProcessIdentifier:request];
@@ -469,6 +505,11 @@ NSURLSessionUploadTask* NRMAOverride__uploadTaskWithRequest_fromData_completionH
         NRLOG_AGENT_ERROR(@"%@", res);
         return nil;
     }
+    
+    // >>> EARLY EXIT
+    if (NRShouldIgnoreURL(request.URL)) {
+        return ((NSURLSessionUploadTask *(*)(id, SEL, NSURLRequest*, NSData*, void (^)(NSData*,NSURLResponse*,NSError*)))originalIMP)(self, _cmd, request, bodyData, completionHandler);
+    }
 
     NSMutableURLRequest* mutableRequest = [NRMAHTTPUtilities addCrossProcessIdentifier:request];
     __block NSURLSessionUploadTask* task = nil;
@@ -515,6 +556,9 @@ NSURLSessionUploadTask* NRMAOverride__uploadTaskWithRequest_fromData_completionH
 
 void NRMA__recordTask(NSURLSessionTask* task, NSData* data, NSURLResponse* response, NSError* error)
 {
+    if (NRShouldIgnoreURL(task.originalRequest.URL)) {
+        return;
+    }
     @try {
         NRTimer* timer = NRMA__getTimerForSessionTask(task);
         // If there is no timer, let's not record this network activity. this could mean a session executed before task was instrumented or the request has already been instrumented by another handler.
